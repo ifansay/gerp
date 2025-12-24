@@ -17,6 +17,7 @@ generator erd {
   output       = "database.svg"
 }
 
+/// 销售负责人
 model e_listing_manager {
   id              Int       @id @default(autoincrement())
   listing_id      Int
@@ -26,6 +27,7 @@ model e_listing_manager {
   user            user      @relation(fields: [manager_user_id], references: [id])
 }
 
+/// 全平台商品
 model e_listing {
   id                 Int                 @id @default(autoincrement())
   platform_code      String
@@ -35,6 +37,7 @@ model e_listing {
   e_listing_managers e_listing_manager[]
 }
 
+/// 用户
 model user {
   id                 Int                 @id @default(autoincrement())
   loginname          String
@@ -42,6 +45,7 @@ model user {
   e_listing_managers e_listing_manager[]
 }
 
+/// 全平台店铺
 model e_market_polymerize {
   id            Int         @id @default(autoincrement())
   platform_code String?
