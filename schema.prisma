@@ -42,10 +42,11 @@ model user {
 }
 
 model e_market_polymerize {
-  id            Int     @id @default(autoincrement())
+  id            Int         @id @default(autoincrement())
   platform_code String?
   country_name  String?
   platform_name String?
   market_name   String?
   market_id     String?
+  listing       e_listing[]
 }
