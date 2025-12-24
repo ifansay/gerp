@@ -17,6 +17,44 @@ generator erd {
   output       = "database.svg"
 }
 
+/// 全平台店铺
+model e_market_polymerize {
+  id                  Int         @id @default(autoincrement())
+  platform_code       String
+  country_name        String
+  platform_name       String
+  disable_Subaccounts Int
+  market_name         String
+  session             Int
+  seller_id           String
+  shop_name           String
+  time_zone           String
+  api_state           String
+  asin_url            String
+  country_code        String
+  create_time         DateTime
+  disabled            Int
+  market_id           String
+  add_date            DateTime
+  ads_state           String
+  currency_id         Int
+  update_time         DateTime
+  delete_state        Int
+  ads_code            String
+  awd_warehouse_id    Int
+  delete_time         DateTime
+  delete_user_id      Int
+  public_token        String
+  refresh_token       String
+  warehouse_id        Int
+  region_id           String
+  server_id           String
+  warehouse           e_warehouse @relation(fields: [warehouse_id], references: [id])
+  awd_warehouse       e_warehouse @relation(fields: [awd_warehouse_id], references: [id])
+  ama_market          e_market    @relation(fields: [market_id], references: [id])
+  e_listings          e_listing[]
+}
+
 /// 销售负责人
 model e_listing_manager {
   id              Int       @id @default(autoincrement())
@@ -45,13 +83,99 @@ model user {
   e_listing_managers e_listing_manager[]
 }
 
-/// 全平台店铺
-model e_market_polymerize {
-  id            Int         @id @default(autoincrement())
-  platform_code String?
-  country_name  String?
-  platform_name String?
-  market_name   String?
-  market_id     String?
-  e_listings    e_listing[]
+/// 仓库
+model e_warehouse {
+  id                       Int                   @id @default(autoincrement())
+  server_id                Int?
+  platform_code            String?
+  name                     String?
+  parent_type              String?
+  type                     String?
+  country                  String?
+  others                   String?
+  warehouse_code           String?
+  pan_eur_status           Int?
+  create_date              DateTime?
+  status                   String?
+  fba_procurement_method   Int?
+  transfer_warehouse_id    Int?
+  seller_id                String?
+  product_transfer_subpac  Int?
+  assemble_transfer_subpac Int?
+  contacts                 String?
+  mobile                   String?
+  company                  String?
+  state                    String?
+  city                     String?
+  district                 String?
+  zip_code                 String?
+  street                   String?
+  phone                    String?
+  email                    String?
+  qq                       String?
+  street2                  String?
+  address_remark           String?
+  create_time              DateTime?
+  update_time              DateTime?
+  sp_code                  String?
+  spw_code                 String?
+  hide_flag                Int?
+  gray_unbundle_flag       Int?
+  address_ext              String?
+  e_market_polymerizes     e_market_polymerize[]
+}
+
+/// 亚马逊店铺
+model e_market {
+  id                                 Int                   @id @default(autoincrement())
+  name                               String?
+  server_id                          Int?
+  alias                              String?
+  account                            String?
+  pwd                                String?
+  country_id                         Int?
+  currency_id                        Int?
+  disabled                           Int?
+  pu_dear                            String?
+  ticket_dear                        String?
+  review                             Int?
+  invitation_review                  Int?
+  feedback                           Int?
+  invitation_feedback                Int?
+  invitation_mfn                     Int?
+  fee_vat                            Int?
+  selling                            Int?
+  fee_report                         Int?
+  traffice                           Int?
+  shipment                           Int?
+  returns                            Int?
+  inventory                          Int?
+  session                            Int?
+  subscript_offer_change             Int?
+  ads                                Int?
+  holiday_reply_email                Int?
+  ignore_order_invitation_date_befor DateTime?
+  order_incitation_email2            Int?
+  add_date                           DateTime?
+  others                             String?
+  disable_Subaccounts                Int?
+  ads_code                           String?
+  ads_state                          String?
+  api_state                          String?
+  ses_auth_status                    String?
+  public_token                       String?
+  refresh_token                      String?
+  ads_unauthorized_count             Int?
+  encrypt_flag                       Int?
+  auth_type                          String?
+  create_time                        DateTime?
+  update_time                        DateTime?
+  delete_state                       Int?
+  delete_time                        DateTime?
+  delete_user_id                     Int?
+  delete_user                        String?
+  warehouse_init_state               Int?
+  subaccount_disable_reason          String?
+  disable_reason                     String?
+  e_market_polymerizes               e_market_polymerize[]
 }
