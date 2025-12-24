@@ -23,6 +23,7 @@ model e_listing_manager {
   manager_id      Int
   manager_user_id Int
   listing         e_listing @relation(fields: [listing_id], references: [id])
+  user            user      @relation(fields: [manager_user_id], references: [id])
 }
 
 model e_listing {
@@ -30,5 +31,45 @@ model e_listing {
   platform_code      String
   country_code       String
   market_id          Int
+  market             e_market_polymerize @relation(fields: [market_id], references: [id])
   e_listing_managers e_listing_manager[]
+}
+
+model user {
+  id            Int            @id @default(autoincrement())
+  loginname     String
+  name          String
+}
+
+model e_market_polymerize {
+  id                  Int       @id @default(autoincrement())
+  platform_code       String?
+  country_name        String?
+  platform_name       String?
+  disable_Subaccounts Int?
+  market_name         String?
+  session             Int?
+  seller_id           String?
+  shop_name           String?
+  time_zone           String?
+  api_state           String?
+  asin_url            String?
+  country_code        String?
+  create_time         DateTime?
+  disabled            Int?
+  market_id           String?
+  add_date            DateTime?
+  ads_state           String?
+  currency_id         Int?
+  update_time         DateTime?
+  delete_state        Int?
+  ads_code            String?
+  awd_warehouse_id    Int?
+  delete_time         DateTime?
+  delete_user_id      Int?
+  public_token        String?
+  refresh_token       String?
+  warehouse_id        Int?
+  region_id           String?
+  server_id           String?
 }
