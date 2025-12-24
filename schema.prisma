@@ -31,8 +31,8 @@ model e_listing {
   platform_code      String
   country_code       String
   market_id          Int
-  e_listing_managers e_listing_manager[]
   market             e_market_polymerize @relation(fields: [market_id], references: [id])
+  e_listing_managers e_listing_manager[]
 }
 
 model user {
