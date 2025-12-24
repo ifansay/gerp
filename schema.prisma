@@ -19,10 +19,10 @@ generator erd {
 }
 
 model e_listing_manager {
-  id              Int         @id @default(autoincrement())
-  listing_id      e_listing[] @relation(references: [id])
+  id              Int       @id @default(autoincrement())
+  listing_id      e_listing @relation(references: [id])
   manager_id      Int
-  manager_user_id user        @relation(fields: [manager_id], references: [id])
+  manager_user_id user      @relation(references: [id])
 }
 
 model e_listing {
