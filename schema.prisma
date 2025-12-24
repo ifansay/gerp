@@ -48,5 +48,5 @@ model e_market_polymerize {
   platform_name String?
   market_name   String?
   market_id     String?
-  listing       e_listing[]
+  e_listings    e_listing[]
 }
