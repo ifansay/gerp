@@ -36,9 +36,10 @@ model e_listing {
 }
 
 model user {
-  id        Int    @id @default(autoincrement())
-  loginname String
-  name      String
+  id                 Int                 @id @default(autoincrement())
+  loginname          String
+  name               String
+  e_listing_managers e_listing_manager[]
 }
 
 model e_market_polymerize {
