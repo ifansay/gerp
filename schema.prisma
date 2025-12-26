@@ -17,198 +17,37 @@ generator erd {
   output       = "database.svg"
 }
 
-/// Walmart-广告商品结构
-model ads_items {
-  /// 主键
-  id                    Int                @id @default(autoincrement())
-  /// 市场id
-  market_id             Int
-  /// 广告活动id
-  campaign_id           Int
-  /// 广告活动联合字段
-  campaign_market       String
-  /// 广告组id
-  group_id              Int
-  /// 广告组联合字段
-  group_market          String
-  /// 广告id
-  ad_id                 Int
-  /// 广告联合字段
-  item_market           String
-  /// 广告联合字段
-  group_item_market     String
-  /// 审核状态（pending, approved, rejected）
-  review_status         String
-  /// 审核原因
-  review_reason         String
-  /// 状态（enabled, disabled）
-  status                String
-  /// 竞价
-  bid                   Decimal
-  /// 商品编码
-  item_id               String
-  /// 商品名称
-  item_name             String
-  /// 父商品编码
-  variation_item_id     String
-  /// 父商品联合字段
-  variation_item_market String
-  /// 商品图片链接
-  item_image_url        String
-  /// 商品页面链接
-  item_page_url         String
-  /// 记录创建时间
-  create_time           DateTime
-  /// 记录变更时间
-  update_time           DateTime
-  platform_market       platform_market    @relation(fields: [market_id], references: [id])
-  ads_items_report      ads_items_report[]
-}
-/// Walmart-广告商品业绩
-model ads_items_report {
-  /// 主键
-  id                          Int             @id @default(autoincrement())
-  /// 市场id
-  market_id                   Int
-  /// 数据时间
-  data_date                   DateTime
-  /// 国家编码
-  country                     String
-  /// 币种
-  currency                    String
-  /// 广告活动id
-  campaign_id                 Int
-  /// 广告活动联合字段
-  campaign_market             String
-  /// 广告组id
-  group_id                    Int
-  /// 广告组联合字段
-  group_market                String
-  /// 广告id
-  ad_id                       Int
-  /// 商品编码
-  item_id                     String
-  /// 广告联合字段
-  group_item_market           String
-  /// 展示次数
-  num_ads_shown               Int
-  /// 点击次数
-  num_ads_clicks              Int
-  /// 广告花费
-  ad_spend                    Decimal
-  /// 3天归因总销售额
-  attributed_sales_3days      Decimal
-  /// 14天归因总销售额
-  attributed_sales_14days     Decimal
-  /// 30天归因总销售额
-  attributed_sales_30days     Decimal
-  /// 3天归因总销量
-  attributed_units_3days      Int
-  /// 14天归因总销量
-  attributed_units_14days     Int
-  /// 30天归因总销量
-  attributed_units_30days     Int
-  /// 3天归因总订单量
-  attributed_orders_3days     Int
-  /// 14天归因总订单量
-  attributed_orders_14days    Int
-  /// 30天归因总订单量
-  attributed_orders_30days    Int
-  /// 3天归因直接销售额
-  advertised_sku_sales_3days  Decimal
-  /// 14天归因直接销售额
-  advertised_sku_sales_14days Decimal
-  /// 30天归因直接销售额
-  advertised_sku_sales_30days Decimal
-  /// 3天归因直接销量
-  advertised_sku_units_3days  Int
-  /// 14天归因直接销量
-  advertised_sku_units_14days Int
-  /// 30天归因直接销量
-  advertised_sku_units_30days Int
-  /// 3天归因间接销售额
-  other_sku_sales_3days       Decimal
-  /// 14天归因间接销售额
-  other_sku_sales_14days      Decimal
-  /// 30天归因间接销售额
-  other_sku_sales_30days      Decimal
-  /// 3天归因间接销量
-  other_sku_units_3days       Int
-  /// 14天归因间接销量
-  other_sku_units_14days      Int
-  /// 30天归因间接销量
-  other_sku_units_30days      Int
-  /// 新买家3天归因总销售额
-  ntb_revenue_3days           Decimal
-  /// 新买家14天归因总销售额
-  ntb_revenue_14days          Decimal
-  /// 新买家30天归因总销售额
-  ntb_revenue_30days          Decimal
-  /// 新买家3天归因总销量
-  ntb_units_3days             Int
-  /// 新买家14天归因总销量
-  ntb_units_14days            Int
-  /// 新买家30天归因总销量
-  ntb_units_30days            Int
-  /// 新买家3天归因总订单量
-  ntb_orders_3days            Int
-  /// 新买家14天归因总订单量
-  ntb_orders_14days           Int
-  /// 新买家30天归因总订单量
-  ntb_orders_30days           Int
-  /// 记录创建时间
-  create_time                 DateTime
-  /// 记录变更时间
-  update_time                 DateTime
-  platform_market             platform_market @relation(fields: [market_id], references: [id])
-  ads_items                   ads_items       @relation(fields: [campaign_id], references: [campaign_id])
-  ads_items                   ads_items       @relation(fields: [group_id], references: [group_id])
-  ads_items                   ads_items       @relation(fields: [ad_id], references: [ad_id])
+model e_listing_manager {
+  id              Int       @id @default(autoincrement())
+  listing_id      Int       @map("listing_id")
+  manager_id      Int
+  manager_user_id Int
+  listing         e_listing @relation(fields: [listing_id], references: [id])
+  user            user      @relation(fields: [manager_user_id], references: [id])
 }
 
-/// Walmart-店铺
-model platform_market {
-  /// 主键
-  id                    Int                   @id @default(autoincrement())
-  /// 中台聚合店铺ID
-  market_polymerize_id  Int
-  tenant_code           String
-  /// 当站点为CA事储存consumerId
-  client_id             String
-  /// 商家ID
-  partner_id            String
-  /// partner_name
-  partner_name          String
-  /// display_name
-  display_name          String
-  /// 当站点为CA事储存secretKey
-  client_secret         String
-  /// CA站点特殊字段
-  channel_type          String
-  /// 数据唯一标识
-  public_token          String
-  /// 国家
-  country               String
-  /// 店铺名称
-  market_name           String
-  /// 店铺账号
-  market_account        String
-  /// 授权状态(0成功，1失败)
-  auth_status           Int
-  /// 店铺状态(0启动，1禁用)
-  status                Int
-  /// 授权更新时间(含广告和店铺)
-  auth_update_time      DateTime
-  /// 平台仓库ID
-  platform_warehouse_id Int
-  /// catalogSellerId
-  catalog_seller_id     String
-  /// 记录创建时间
-  create_time           DateTime
-  /// 记录变更时间
-  update_time           DateTime
-  warehouse             e_warehouse           @relation(fields: [platform_warehouse_id], references: [id])
-  ads_items             ads_items[]
-  ads_items_report      ads_items_report[]
-  market_polymerize     e_market_polymerize[]
+model e_listing {
+  id                 Int                 @id @default(autoincrement())
+  platform_code      String
+  country_code       String
+  market_id          Int
+  market             e_market_polymerize @relation(fields: [market_id], references: [id])
+  e_listing_managers e_listing_manager[]
+}
+
+model user {
+  id                 Int                 @id @default(autoincrement())
+  loginname          String
+  name               String
+  e_listing_managers e_listing_manager[]
+}
+
+model e_market_polymerize {
+  id            Int         @id @default(autoincrement())
+  platform_code String?
+  country_name  String?
+  platform_name String?
+  market_name   String?
+  market_id     String?
+  e_listings    e_listing[]
 }
