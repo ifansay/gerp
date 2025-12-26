@@ -62,7 +62,7 @@ model ads_items {
   /// 记录变更时间
   update_time           DateTime
   platform_market       platform_market    @relation(fields: [market_id], references: [id])
-  ads_items_report_s    ads_items_report[]
+  ads_items_reports     ads_items_report[]
 }
 /// Walmart-广告商品业绩
 model ads_items_report {
@@ -208,144 +208,7 @@ model platform_market {
   /// 记录变更时间
   update_time           DateTime
   warehouse             e_warehouse           @relation(fields: [platform_warehouse_id], references: [id])
-  ads_items_s           ads_items[]
-  ads_items_report_s    ads_items_report[]
-  market_polymerize_s   e_market_polymerize[]
-}
-/// 仓库信息
-model e_warehouse {
-  id                       Int      @id @default(autoincrement())
-  server_id                Int
-  /// 平台编码
-  platform_code            String
-  /// 仓库名称
-  name                     String
-  /// FBA仓/三方仓/自营仓/WFS仓/供应商仓
-  type                     String
-  /// 父仓库类型
-  parent_type              String
-  country                  String
-  others                   String
-  /// 仓库编号
-  warehouse_code           String
-  /// Pan-Eur 欧洲共享
-  pan_eur_status           Int
-  /// 创建时间
-  create_date              DateTime
-  /// 状态
-  status                   String
-  /// FBA仓采购方式
-  fba_procurement_method   Int
-  ///  FBA中转仓ID
-  transfer_warehouse_id    Int
-  /// 卖家编号
-  seller_id                String
-  /// 成品调拨出库扣减包材仓
-  product_transfer_subpac  Int
-  /// 组合商品调拨出库扣减包材仓
-  assemble_transfer_subpac Int
-  /// 联系人
-  contacts                 String
-  /// 联系电话
-  mobile                   String
-  /// 公司名称
-  company                  String
-  /// 国内（省），国外（州，地区）
-  state                    String
-  /// 国内（市），国外（城市）
-  city                     String
-  /// 县、区、镇
-  district                 String
-  /// 邮政编码
-  zip_code                 String
-  /// 收件地址
-  street                   String
-  /// 传真、固定电话
-  phone                    String
-  /// 邮箱
-  email                    String
-  /// qq号
-  qq                       String
-  /// 收件地址2
-  street2                  String
-  /// 地址信息备注
-  address_remark           String
-  /// 记录创建时间
-  create_time              DateTime
-  /// 记录变更时间
-  update_time              DateTime
-  /// 三方仓服务商编码
-  sp_code                  String
-  /// 三方仓仓库编码
-  spw_code                 String
-  /// 北美联合仓以及子仓库隐藏标记
-  hide_flag                Int
-  /// 店铺解绑启用置灰标记
-  gray_unbundle_flag       Int
-  /// 地址信息
-  address_ext              String
-}
-/// 全平台店铺
-model e_market_polymerize {
-  /// 主键
-  id                  Int             @id @default(autoincrement())
-  /// 平台编码
-  platform_code       String
-  /// 国家名称
-  country_name        String
-  /// 平台名称
-  platform_name       String
-  /// 禁用子账号
-  disable_Subaccounts Int
-  /// session
-  session             Int
-  /// 站点名称
-  market_name         String
-  /// 卖家编号
-  seller_id           String
-  /// 时间区域
-  time_zone           String
-  /// 店铺名称
-  shop_name           String
-  /// 亚马逊授权状态:Invalid无效Normal正常Expired 过期
-  api_state           String
-  /// asin_url地址
-  asin_url            String
-  /// 国家编码，英文简称
-  country_code        String
-  /// 记录创建时间
-  create_time         DateTime
-  /// 平台站点店铺ID(原始ID)，多个店铺可能对应同一个market_id
-  market_id           String
-  /// 0.正常同步(可用) 1.暂停同步(禁用) 2.授权失败
-  disabled            Int
-  /// 授权码状态
-  ads_state           String
-  /// 站点创建时间
-  add_date            DateTime
-  /// 币种id
-  currency_id         Int
-  /// 记录变更时间
-  update_time         DateTime
-  /// 0.未删除 1.删除
-  delete_state        Int
-  /// 亚马逊AWD仓库ID
-  awd_warehouse_id    Int
-  /// 删除时间
-  delete_time         DateTime
-  /// 广告授权码
-  ads_code            String
-  /// 删除人ID
-  delete_user_id      Int
-  /// 公开token
-  public_token        String
-  /// 仓库ID
-  warehouse_id        Int
-  /// 亚马逊sp token
-  refresh_token       String
-  /// 区域ID
-  region_id           String
-  server_id           String
-  platform_market     platform_market @relation(fields: [market_id], references: [id])
-  warehouse           e_warehouse     @relation(fields: [warehouse_id], references: [id])
+  ads_itemss            ads_items[]
+  ads_items_reports     ads_items_report[]
+  market_polymerizes    e_market_polymerize[]
 }
