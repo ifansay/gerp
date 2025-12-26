@@ -62,7 +62,7 @@ model ads_items {
   /// 记录变更时间
   update_time           DateTime
   platform_market       platform_market    @relation(fields: [market_id], references: [id])
-  ads_items_reports     ads_items_report[]
+  ads_items_report      ads_items_report[]
 }
 /// Walmart-广告商品业绩
 model ads_items_report {
@@ -208,7 +208,7 @@ model platform_market {
   /// 记录变更时间
   update_time           DateTime
   warehouse             e_warehouse           @relation(fields: [platform_warehouse_id], references: [id])
-  ads_itemss            ads_items[]
-  ads_items_reports     ads_items_report[]
-  market_polymerizes    e_market_polymerize[]
+  ads_items             ads_items[]
+  ads_items_report      ads_items_report[]
+  market_polymerize     e_market_polymerize[]
 }
