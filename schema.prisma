@@ -176,7 +176,7 @@ model e_market_polymerize {
 
 /// 产品资料(产品信息)
 model e_product {
-  id                             Int                @id @default(autoincrement())
+  id                             Int                      @id @default(autoincrement())
   /// 产品编码即SKU
   sku                            String
   /// 图片链接
@@ -397,11 +397,12 @@ model e_product {
   package_weight_unit            String
   /// 单品净重单位（如：g、kg）
   single_product_net_weight_unit String
-  e_product_category             e_product_category @relation(fields: [category], references: [value])
-  e_product_brand                e_product_brand    @relation(fields: [brand], references: [code])
-  sys_account                    sys_account        @relation(fields: [product_manager_account_id], references: [biz_id])
-  sys_account                    sys_account        @relation(fields: [purchase_account_id], references: [biz_id])
+  e_product_category             e_product_category       @relation(fields: [category], references: [value])
+  e_product_brand                e_product_brand          @relation(fields: [brand], references: [code])
+  sys_account                    sys_account              @relation(fields: [product_manager_account_id], references: [biz_id])
+  sys_account                    sys_account              @relation(fields: [purchase_account_id], references: [biz_id])
   e_listing                      e_listing[]
+  e_parent_product_product       e_parent_product_product
 }
 
 /// 仓库信息
@@ -827,6 +828,8 @@ model sys_account {
   /// 逻辑删除字段，0：正常，1：已删除
   deletion_flag     Int
   e_listing_manager e_listing_manager[]
+  e_product         e_product[]
+  e_parent_product  e_parent_product[]
 }
 
 /// 全渠道商品销售负责人关系
