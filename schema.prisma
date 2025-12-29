@@ -1,21 +1,3 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider          = "mysql"
-  url               = env("DATABASE_URL")
-  directUrl         = env("DIRECT_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
-}
-
-generator erd {
-  provider     = "prisma-erd-generator"
-  ignoreTables = ["_prisma_migrations", "Session", "Account", "Example"]
-  disabled     = false
-  ignoreEnums  = true
-  output       = "database.svg"
-}
 
 model e_listing_manager {
   id              Int       @id @default(autoincrement())
@@ -23,7 +5,7 @@ model e_listing_manager {
   manager_id      Int
   manager_user_id Int
   e_listing       e_listing @relation(fields: [listing_id], references: [id])
-  user            user      @relation(fields: [manager_id], references: [biz_id])
+  user            user      @relation(fields: [manager_user_id], references: [biz_id])
 }
 
 model e_listing {
