@@ -9,7 +9,7 @@ datasource db {
 generator erd {
   provider     = "prisma-erd-generator"
   ignoreTables = ["_prisma_migrations", "Session", "Account", "Example"]
-  disabled     = false
+  disabled     = true
   ignoreEnums  = true
   output       = "database.svg"
 }
