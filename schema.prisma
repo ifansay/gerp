@@ -14,30 +14,17 @@ generator erd {
   output       = "database.svg"
 }
 
-model account {
-  id                       String  @id @default(cuid())
-  userId                   String  @map("user_id")
-  type                     String
-  provider                 String
-  providerAccountId        String
-  refresh_token            String?
-  access_token             String?
-  expires_at               Int?
-  expires_in               Int?
-  ext_expires_in           Int?
-  token_type               String?
-  scope                    String?
-  id_token                 String?
-  session_state            String?
-  refresh_token_expires_in Int?
-  created_at               Int?
-  user                     user    @relation(fields: [userId], references: [id])
-}
-
 model user {
   id                Int                 @id @default(autoincrement())
   biz_id            Int
   name              String
   e_listing_manager e_listing_manager[]
-  account           account[]
+}
+
+model e_listing_manager {
+  id              Int       @id @default(autoincrement())
+  listing_id      Int
+  manager_id      Int
+  manager_user_id Int
+  user            user      @relation(fields: [manager_user_id], references: [biz_id])
 }
