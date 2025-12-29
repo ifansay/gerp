@@ -1,14 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+generator erd {
+  provider     = "prisma-erd-generator"
+  ignoreTables = ["_prisma_migrations", "Session", "Account", "Example"]
+  disabled     = false
+  ignoreEnums  = true
+  output       = "database.svg"
+}
+
 model e_listing_manager {
   id              Int       @id @default(autoincrement())
   listing_id      Int
   manager_id      Int
   manager_user_id Int
-  e_listing       e_listing @relation(fields: [listing_id], references: [id])
+  listing         e_listing @relation(fields: [listing_id], references: [id])
+  user            user      @relation(fields: [manager_user_id], references: [biz_id])
 }
 
 model e_listing {
-  id                  Int                 @id @default(autoincrement())
-  market_id           Int
-  name                String
-  e_listing_manager   e_listing_manager[]
+  id                Int                 @id @default(autoincrement())
+  market_id         Int
+  name              String
+  market_polymerize e_market_polymerize @relation(fields: [market_id], references: [id])
+  listing_manager   e_listing_manager[]
+}
+
+model user {
+  id                Int                 @id @default(autoincrement())
+  biz_id            Int
+  name              String
+  e_listing_manager e_listing_manager[]
+}
+
+model e_market_polymerize {
+  id            Int         @id @default(autoincrement())
+  platform_code String
+  country_name  String
+  platform_name String
+  market_name   String
+  market_id     String
+  listing       e_listing[]
 }
