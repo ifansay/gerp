@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["tracing", "views", "relationJoins", "metrics"]
 }
 
@@ -18,36 +18,887 @@ generator erd {
   output       = "database.svg"
 }
 
-model e_listing_manager {
-  id              Int       @id @default(autoincrement())
-  listing_id      Int
-  manager_id      Int
-  manager_user_id Int
-  e_listing       e_listing @relation(fields: [listing_id], references: [id])
-  user            user      @relation(fields: [manager_id], references: [id])
-}
-
+/// 全渠道商品
 model e_listing {
-  id                  Int                 @id @default(autoincrement())
-  market_id           Int
-  name                String
-  e_market_polymerize e_market_polymerize @relation(fields: [market_id], references: [id])
-  e_listing_manager   e_listing_manager[]
+  /// id
+  id                      Int                 @id @default(autoincrement())
+  /// 平台编码
+  platform_code           String
+  /// 店铺ID
+  market_id               Int
+  /// 国家编码
+  country_code            String
+  /// 商品编码：亚马逊ASIN，多平台：itemId
+  item_id                 String
+  /// MSKU
+  msku                    String
+  /// 主图
+  main_image_url          String
+  /// 商品标题
+  listing_title           String
+  /// 亚马逊：父ASIN；沃尔玛：变体组ID；多平台：itemId
+  group_item_id           String
+  /// 全球商品id，shopee和Mercado平台有该字段值
+  global_item_id          String
+  /// 产品编码即SKU
+  sku                     String
+  /// 父产品编码
+  spu                     String
+  /// 品类编码
+  category                String
+  /// 币种
+  currency                String
+  /// 平台品牌名称
+  platform_brand          String
+  /// 平台分类
+  platform_category       String
+  /// 商品状态（新品、二手...）
+  listing_state           String
+  /// 售价
+  sale_price              Decimal
+  /// 原价
+  adjust_standard_price   Decimal
+  /// 优惠开始日期
+  offer_start_date        DateTime
+  /// 优惠结束日期
+  offer_end_date          DateTime
+  /// 销售状态：AVAILABLE_FOR_SALE 可售，NOT_FOR_SALE 停售
+  sales_state             String
+  /// 销售状态详情
+  sales_state_detail      String
+  /// 配送渠道：PLATFORM 平台配送，SELF 自配送，NoOffer 亚马逊独有
+  fulfillment             String
+  /// 上架时间
+  listing_time            DateTime
+  /// 开售日期
+  first_sales_date        DateTime
+  /// 可售库存
+  self_delivery_inventory Int
+  /// 商品运营状态
+  operation_state         String
+  /// 商品运营级别
+  operation_level         String
+  /// 商品备注
+  remarks                 String
+  /// 单平台商品唯一key
+  listing_key             String
+  /// 商品权限key： 平台编码+店铺id+msku
+  listing_permission_key  String
+  /// 分组：存在父asin[平台+站点+父asin]，不存在[平台+msku+父asin]
+  group_key               String
+  /// 创建时间
+  create_time             DateTime
+  /// 更新时间
+  update_time             DateTime
+  /// 是否是单品
+  single                  Int
+  /// 供应商ID
+  selling_party_id        String
+  /// 仓库ID
+  warehouse_id            String
+  /// 低价商城商品； 0：否；1：是
+  low_cost_store_flag     Int
+  /// 父产品名称
+  spu_name                String
+  e_market_polymerize     e_market_polymerize @relation(fields: [market_id], references: [id])
+  e_product               e_product           @relation(fields: [sku], references: [sku])
+  e_warehouse             e_warehouse         @relation(fields: [warehouse_id], references: [id])
 }
 
-model user {
-  id                Int                 @id @default(autoincrement())
-  biz_id            Int
-  name              String
-  e_listing_manager e_listing_manager[]
-}
-
+/// 全平台店铺
 model e_market_polymerize {
-  id            Int         @id @default(autoincrement())
-  platform_code String
-  country_name  String
-  platform_name String
-  market_name   String
-  market_id     String
-  e_listing     e_listing[]
+  /// 主键
+  id                  Int           @id @default(autoincrement())
+  /// 平台编码
+  platform_code       String
+  /// 国家名称
+  country_name        String
+  /// 平台名称
+  platform_name       String
+  /// 禁用子账号
+  disable_Subaccounts Int
+  /// session
+  session             Int
+  /// 站点名称
+  market_name         String
+  /// 卖家编号
+  seller_id           String
+  /// 时间区域
+  time_zone           String
+  /// 店铺名称
+  shop_name           String
+  /// 亚马逊授权状态:Invalid无效Normal正常Expired 过期
+  api_state           String
+  /// asin_url地址
+  asin_url            String
+  /// 国家编码，英文简称
+  country_code        String
+  /// 记录创建时间
+  create_time         DateTime
+  /// 平台站点店铺ID(原始ID)，多个店铺可能对应同一个market_id
+  market_id           String
+  /// 0.正常同步(可用) 1.暂停同步(禁用) 2.授权失败
+  disabled            Int
+  /// 授权码状态
+  ads_state           String
+  /// 站点创建时间
+  add_date            DateTime
+  /// 币种id
+  currency_id         Int
+  /// 记录变更时间
+  update_time         DateTime
+  /// 0.未删除 1.删除
+  delete_state        Int
+  /// 亚马逊AWD仓库ID
+  awd_warehouse_id    Int
+  /// 删除时间
+  delete_time         DateTime
+  /// 广告授权码
+  ads_code            String
+  /// 删除人ID
+  delete_user_id      Int
+  /// 公开token
+  public_token        String
+  /// 仓库ID
+  warehouse_id        Int
+  /// 亚马逊sp token
+  refresh_token       String
+  /// 区域ID
+  region_id           String
+  server_id           String
+  e_market            e_market      @relation(fields: [market_id], references: [id])
+  erp_shop_info       erp_shop_info @relation(fields: [market_id], references: [id])
+  e_vc_market         e_vc_market   @relation(fields: [market_id], references: [id])
+  e_warehouse         e_warehouse   @relation(fields: [warehouse_id], references: [id])
+  e_warehouse         e_warehouse   @relation(fields: [awd_warehouse_id], references: [id])
+  e_listing           e_listing[]
+}
+
+/// 产品资料(产品信息)
+model e_product {
+  id                             Int                      @id @default(autoincrement())
+  /// 产品编码即SKU
+  sku                            String
+  /// 图片链接
+  small_image_url                String
+  /// 产品名称
+  name                           String
+  /// 产品名称(打印)
+  name_print                     String
+  /// 简称
+  brief_name                     String
+  /// 品类编码
+  category                       String
+  /// 品牌编码
+  brand                          String
+  group_name                     String
+  navigation_id                  Int
+  devices                        String
+  barcode                        String
+  product_type                   Int
+  level                          Int
+  /// 组合规则
+  assembly                       String
+  /// 包材规则
+  assembly_package               String
+  /// 预估组装完成天数
+  estimated_assembly_days        Int
+  /// 装配人工成本
+  assembly_labor_cost            Decimal
+  /// 默认装配仓
+  default_assembly_warehouse_id  Int
+  /// 包装尺寸 长
+  package_l                      Decimal
+  /// 包装尺寸 宽
+  package_w                      Decimal
+  /// 包装尺寸 高
+  package_h                      Decimal
+  /// 单品毛重（g）
+  package_weight                 Decimal
+  /// 产品状态
+  state                          Int
+  /// 已废弃，不在使用
+  technical                      String
+  /// 产品标题
+  title                          String
+  /// 描述
+  description                    String
+  /// 创建时间
+  add_date                       DateTime
+  /// 更新时间
+  last_date                      DateTime
+  /// 已废弃，不在使用
+  qa                             String
+  /// 备注
+  remark                         String
+  /// 采购成本
+  quote                          Decimal
+  /// 材质
+  material                       String
+  /// 用途
+  product_usage                  String
+  /// 功能
+  product_function               String
+  /// 制造国
+  manufacturing_country          String
+  /// 产品负责人
+  product_manager_account        String
+  /// 产品负责人ID
+  product_manager_account_id     Int
+  /// 是否采购
+  purchase                       Int
+  /// 采购负责人
+  purchase_account               String
+  /// 采购负责人ID
+  purchase_account_id            Int
+  /// 采购交期
+  product_delivery_days          Int
+  /// 已废弃，不在使用
+  rpp_min_to                     Int
+  /// 已废弃，不在使用
+  rpp_max_to                     Int
+  /// 已废弃，不在使用
+  rpp_7ps_percentage             Int
+  /// 已废弃，不在使用
+  rpp_14ps_percentage            Int
+  /// 已废弃，不在使用
+  rpp_28ps_percentage            Int
+  /// 物流分组
+  transfer_group                 String
+  /// 已废弃，不在使用
+  english_name                   String
+  /// 创建人id
+  record_account_id              Int
+  /// 商品质保期
+  warranty_time                  Int
+  /// 单位
+  unit                           String
+  /// 安全库存量
+  safe_storage_quantity          Int
+  /// 采购周期
+  purchase_cycle                 Int
+  /// 物流周期
+  delivery_cycle                 Int
+  /// 安全库存周期
+  safe_storage_cycle             Int
+  /// 采购间隔周期
+  purchase_biginterval_cycle     Int
+  /// 属性
+  property                       String
+  /// 采购间隔周期
+  purchase_interval_cycle        Int
+  /// 规格
+  specification                  String
+  /// 外箱尺寸宽
+  carton_size_w                  Decimal
+  /// 外箱尺寸高
+  carton_size_h                  Decimal
+  /// 外箱尺寸长
+  carton_size_l                  Decimal
+  /// 单箱重量
+  single_weight                  Decimal
+  /// 单箱数量
+  single_quantity                Decimal
+  /// 是否属于服装类别
+  clothing                       Int
+  /// 海关编码
+  customs_code                   String
+  /// 单品尺寸 长
+  single_product_size_l          Decimal
+  /// 是否属于低价：0-否，1-是
+  low_price                      Int
+  /// 单品尺寸 宽
+  single_product_size_w          Decimal
+  /// 单品尺寸 高
+  single_product_size_h          Decimal
+  /// 内包个数
+  internal_package_number        Int
+  /// 单品净重 g
+  single_product_net_weight      Decimal
+  /// 单箱净重 kg
+  single_net_weight              Decimal
+  /// 中文报关名
+  chinese_customs_name           String
+  /// 英文报关名
+  english_customs_name           String
+  /// 关税分摊币种
+  duty_currency                  String
+  /// 关税分摊单价
+  duty_price                     Decimal
+  /// 单品尺寸 长
+  single_product_p_size_l        Decimal
+  /// 是否商检（0否，1是）默认为0
+  is_inspection                  Int
+  /// 单品尺寸 宽
+  single_product_p_size_w        Decimal
+  /// 父级ID（BOM相关字段）
+  assemble_parent_id             Int
+  /// 单品尺寸 高
+  single_product_p_size_h        Decimal
+  /// 申报要素
+  report_element                 String
+  /// 是否带电
+  charged_attribute              Int
+  /// 单品净重 g
+  single_product_p_net_weight    Decimal
+  /// 申报型号
+  report_model                   String
+  /// 是否带磁
+  magnetic_attribute             Int
+  /// 单品尺寸 长
+  single_product_p_p_size_l      Decimal
+  /// 监管条件
+  monitoring_condition           String
+  /// 是否粉末
+  powder_attribute               Int
+  /// 单品尺寸 宽
+  single_product_p_p_size_w      Decimal
+  /// 产品认证类型
+  product_certification_type     String
+  /// 是否液体
+  liquid_attribute               Int
+  /// 单品尺寸 高
+  single_product_p_p_size_h      Decimal
+  /// 检疫检验类别
+  quarantine_inspection_category String
+  /// 是否膏体
+  paste_attribute                Int
+  /// 单品净重 g
+  single_product_p_p_net_weight  Decimal
+  /// 原产地
+  country_of_origin              String
+  /// 记录变更时间
+  update_time                    DateTime
+  /// 是否木制
+  wooden_attribute               Int
+  /// 包装方式
+  way_of_packing                 String
+  /// 是否纯电
+  battery_attribute              Int
+  /// sku完整状态
+  complete_state                 Int
+  /// 第二法定数量
+  legal_quantity_second          Decimal
+  /// 创建时间
+  create_time                    DateTime
+  /// 成交价格
+  transaction_price              Decimal
+  /// 成交单位
+  transaction_unit               String
+  /// 境内目的地/境内货源地
+  domestic_source                String
+  /// 第一法定计量单位
+  legal_measurement_unit_first   String
+  /// 第一法定数量
+  legal_quantity_first           Decimal
+  /// 第二法定计量单位
+  legal_measurement_unit_second  String
+  /// 单品毛重单位（如：g、kg）
+  package_weight_unit            String
+  /// 单品净重单位（如：g、kg）
+  single_product_net_weight_unit String
+  e_product_category             e_product_category       @relation(fields: [category], references: [value])
+  e_product_brand                e_product_brand          @relation(fields: [brand], references: [code])
+  sys_account                    sys_account              @relation(fields: [product_manager_account_id], references: [biz_id])
+  sys_account                    sys_account              @relation(fields: [purchase_account_id], references: [biz_id])
+  e_listing                      e_listing[]
+  e_parent_product_product       e_parent_product_product
+}
+
+/// 仓库信息
+model e_warehouse {
+  id                       Int                   @id @default(autoincrement())
+  server_id                Int
+  /// 平台编码
+  platform_code            String
+  /// 仓库名称
+  name                     String
+  /// FBA仓/三方仓/自营仓/WFS仓/供应商仓
+  type                     String
+  /// 父仓库类型
+  parent_type              String
+  country                  String
+  others                   String
+  /// 仓库编号
+  warehouse_code           String
+  /// Pan-Eur 欧洲共享
+  pan_eur_status           Int
+  /// 创建时间
+  create_date              DateTime
+  /// 状态
+  status                   String
+  /// FBA仓采购方式
+  fba_procurement_method   Int
+  ///  FBA中转仓ID
+  transfer_warehouse_id    Int
+  /// 卖家编号
+  seller_id                String
+  /// 成品调拨出库扣减包材仓
+  product_transfer_subpac  Int
+  /// 组合商品调拨出库扣减包材仓
+  assemble_transfer_subpac Int
+  /// 联系人
+  contacts                 String
+  /// 联系电话
+  mobile                   String
+  /// 公司名称
+  company                  String
+  /// 国内（省），国外（州，地区）
+  state                    String
+  /// 国内（市），国外（城市）
+  city                     String
+  /// 县、区、镇
+  district                 String
+  /// 邮政编码
+  zip_code                 String
+  /// 收件地址
+  street                   String
+  /// 传真、固定电话
+  phone                    String
+  /// 邮箱
+  email                    String
+  /// qq号
+  qq                       String
+  /// 收件地址2
+  street2                  String
+  /// 地址信息备注
+  address_remark           String
+  /// 记录创建时间
+  create_time              DateTime
+  /// 记录变更时间
+  update_time              DateTime
+  /// 三方仓服务商编码
+  sp_code                  String
+  /// 三方仓仓库编码
+  spw_code                 String
+  /// 北美联合仓以及子仓库隐藏标记
+  hide_flag                Int
+  /// 店铺解绑启用置灰标记
+  gray_unbundle_flag       Int
+  /// 地址信息
+  address_ext              String
+  e_listing                e_listing[]
+  e_market_polymerize      e_market_polymerize[]
+  platform_market          platform_market[]
+}
+
+/// Amazon-SC店铺
+model e_market {
+  id                                 Int                 @id @default(autoincrement())
+  server_id                          Int
+  name                               String
+  /// 别名
+  alias                              String
+  account                            String
+  /// 子账号密码
+  pwd                                String
+  country_id                         Int
+  currency_id                        Int
+  /// 0.正常同步(可用) 1.暂停同步(禁用) 2.授权失败
+  disabled                           Int
+  pu_dear                            String
+  ticket_dear                        String
+  review                             Int
+  invitation_review                  Int
+  feedback                           Int
+  invitation_feedback                Int
+  invitation_mfn                     Int
+  fee_vat                            Int
+  selling                            Int
+  fee_report                         Int
+  traffice                           Int
+  shipment                           Int
+  returns                            Int
+  inventory                          Int
+  session                            Int
+  /// 是否订阅offerChange SQS消息
+  subscript_offer_change             Int
+  ads                                Int
+  holiday_reply_email                Int
+  ignore_order_invitation_date_befor DateTime
+  order_incitation_email2            Int
+  add_date                           DateTime
+  others                             String
+  /// 禁用子账号
+  disable_Subaccounts                Int
+  /// 广告授权码
+  ads_code                           String
+  /// 授权码状态
+  ads_state                          String
+  /// 亚马逊授权状态 Invalid 无效, Normal 正常
+  api_state                          String
+  /// AWS邮件服务SES授权状态：NoAuth 未授权；AuthSuccess 授权成功
+  ses_auth_status                    String
+  /// 亚马逊中台公开token
+  public_token                       String
+  /// 亚马逊sptoken
+  refresh_token                      String
+  /// 广告授权失效出现次数
+  ads_unauthorized_count             Int
+  /// 标识是否启用加密 0.未加密 1.已加密 2.已修改 默认0
+  encrypt_flag                       Int
+  /// 店铺授权方式
+  auth_type                          String
+  /// 创建时间
+  create_time                        DateTime
+  /// 变更时间
+  update_time                        DateTime
+  /// 0.未删除 1.删除
+  delete_state                       Int
+  /// 删除时间
+  delete_time                        DateTime
+  /// 删除人ID
+  delete_user_id                     Int
+  /// 删除人名称
+  delete_user                        String
+  /// 新增店铺时，如果店铺绑定了仓库，则把该标识标记为1，对于 不为1的店铺，通过任务去补齐仓库ID
+  warehouse_init_state               Int
+  /// 子账号禁用原因
+  subaccount_disable_reason          String
+  /// 子账号禁用原因
+  disable_reason                     String
+  e_market_polymerize                e_market_polymerize
+}
+
+/// Walmart-店铺
+model platform_market {
+  /// 主键
+  id                    Int                   @id @default(autoincrement())
+  /// 中台聚合店铺ID
+  market_polymerize_id  Int
+  tenant_code           String
+  /// 当站点为CA事储存consumerId
+  client_id             String
+  /// 商家ID
+  partner_id            String
+  /// partner_name
+  partner_name          String
+  /// display_name
+  display_name          String
+  /// 当站点为CA事储存secretKey
+  client_secret         String
+  /// CA站点特殊字段
+  channel_type          String
+  /// 数据唯一标识
+  public_token          String
+  /// 国家
+  country               String
+  /// 店铺名称
+  market_name           String
+  /// 店铺账号
+  market_account        String
+  /// 授权状态(0成功，1失败)
+  auth_status           Int
+  /// 店铺状态(0启动，1禁用)
+  status                Int
+  /// 授权更新时间(含广告和店铺)
+  auth_update_time      DateTime
+  /// 平台仓库ID
+  platform_warehouse_id Int
+  /// catalogSellerId
+  catalog_seller_id     String
+  /// 记录创建时间
+  create_time           DateTime
+  /// 记录变更时间
+  update_time           DateTime
+  e_warehouse           e_warehouse           @relation(fields: [platform_warehouse_id], references: [id])
+  e_market_polymerize   e_market_polymerize[]
+}
+
+/// Amazon-VC店铺
+model e_vc_market {
+  /// 主键
+  id                        Int                   @id @default(autoincrement())
+  /// 卖家编码
+  seller_id                 String
+  /// 卖家名称
+  seller_name               String
+  /// 国家ID
+  country_id                Int
+  /// 国家英文名称
+  country_code              String
+  /// 0.正常同步(可用) 1.暂停同步(禁用)
+  disabled                  Int
+  /// Invalid-授权无效；Normal-授权正常；Expired-授权过期；Unregistered-未开通站点；StatusInvalid-店铺状态异常；
+  api_state                 String
+  /// VC店铺亚马逊中台公开token
+  public_token              String
+  /// VC店铺亚马逊中台sptoken
+  refresh_token             String
+  /// marketplace主键
+  marketplace_id            String
+  /// 时间区域
+  time_zone                 String
+  /// asin_url地址
+  asin_url                  String
+  /// 创建时间
+  create_time               DateTime
+  /// 创建人ID
+  create_user_id            Int
+  /// 更新人ID
+  update_user_id            Int
+  /// 更新时间
+  update_time               DateTime
+  /// 0.未删除 1.删除
+  delete_state              Int
+  /// 删除时间
+  delete_time               DateTime
+  /// 删除人ID
+  delete_user_id            Int
+  /// 广告授权码
+  ads_code                  String
+  /// 授权码状态
+  ads_state                 String
+  /// 仓库ID
+  warehouse_id              Int
+  /// 关联的服务器ID
+  server_id                 Int
+  /// 子账号
+  account                   String
+  /// 子账号密码
+  pwd                       String
+  /// 子账号二次验证密钥
+  auth_secret_key           String
+  /// 标识是否启用加密 0.未加密 1.已加密 2.已修改 默认0
+  encrypt_flag              Int
+  /// 子账号session 0：NO 1：YES
+  session                   Int
+  /// 禁用子账号 0：可用 1：禁用
+  disable_subaccounts       Int
+  /// 子账号禁用原因
+  subaccount_disable_reason String
+  e_market_polymerize       e_market_polymerize[]
+}
+
+/// 产品品类
+model e_product_category {
+  id              Int         @id @default(autoincrement())
+  /// 品类名称
+  name            String
+  /// 品类编码
+  value           String
+  /// 父品类编码
+  parent_category String
+  state           String
+  memo            String
+  /// 创建时间
+  create_time     DateTime
+  /// 变更时间
+  update_time     DateTime
+  /// 品类简码（由数字、英文字母组成，长度不超过10个字符）
+  short_code      String
+  e_product       e_product[]
+}
+
+/// 产品品牌
+model e_product_brand {
+  id          Int         @id @default(autoincrement())
+  /// 品牌编码
+  code        String
+  name        String
+  state       String
+  memo        String
+  /// 创建时间
+  create_time DateTime
+  /// 变更时间
+  update_time DateTime
+  e_product   e_product[]
+}
+
+/// 用户
+model sys_account {
+  /// 主键,用户表主键
+  id                Int                 @id @default(autoincrement())
+  /// 原业务系统用户主键id
+  biz_id            Int
+  /// 来源 M/X
+  account_source    String
+  /// 登录名/账号
+  login_name        String
+  /// 租户编码，M版
+  tenant_code       String
+  /// 姓名
+  name              String
+  /// 是否主管
+  is_charge         Int
+  /// 密码
+  password          String
+  /// 账号类型
+  account_type      Int
+  /// 密码盐
+  slat              String
+  /// 手机号
+  phone             String
+  /// 是否管理员，1 表示是管理员 0 表示不是
+  is_admin          Int
+  /// 用户状态
+  status            Int
+  /// 部门id
+  org_id            Int
+  /// 是否隐藏 0：否，1：是
+  hidden            Int
+  /// 用户ip限制
+  ips               String
+  /// 是否开启ip限制，默认不开启，0：不开启 1：开启
+  ip_state          Int
+  /// 用户id
+  user_id           Int
+  /// 逻辑删除字段，0：正常，1：已删除
+  deletion_flag     Int
+  e_listing_manager e_listing_manager[]
+  e_product         e_product[]
+  e_parent_product  e_parent_product[]
+}
+
+/// 全渠道商品销售负责人关系
+model e_listing_manager {
+  /// id
+  id              Int         @id @default(autoincrement())
+  /// listing表主键id
+  listing_id      Int
+  /// 用户ID
+  manager_id      Int
+  /// 用户biz_id，可以有多个
+  manager_user_id Int
+  /// 创建时间
+  create_time     DateTime
+  /// 更新时间
+  update_time     DateTime
+  e_listing       e_listing   @relation(fields: [listing_id], references: [id])
+  sys_account     sys_account @relation(fields: [manager_id], references: [id])
+  sys_account     sys_account @relation(fields: [manager_user_id], references: [biz_id])
+}
+
+/// SPU与SKU关联信息
+model e_parent_product_product {
+  id                  Int              @id @default(autoincrement())
+  /// spu
+  parent_product_code String
+  /// 产品编码即SKU
+  product             String
+  record_account_id   Int
+  record_date         DateTime
+  /// 创建时间
+  create_time         DateTime
+  /// 变更时间
+  update_time         DateTime
+  e_parent_product    e_parent_product @relation(fields: [parent_product_code], references: [code])
+  e_product           e_product        @relation(fields: [product], references: [sku])
+}
+
+/// SPU基础信息
+model e_parent_product {
+  id                               Int                        @id @default(autoincrement())
+  /// spu编码
+  code                             String
+  /// spu名称
+  name                             String
+  qc_adverse_rate                  Decimal
+  rma_adverse_rate                 Decimal
+  qc_standard1                     String
+  qc_standard2                     String
+  qc_standard3                     String
+  qc_standard4                     String
+  qc_standard5                     String
+  /// 描述
+  description                      String
+  record_account_id                Int
+  record_date                      DateTime
+  last_date                        DateTime
+  /// 品类编码
+  p_category                       String
+  /// 品类
+  p_brand                          String
+  /// 产品状态
+  p_state                          Int
+  /// 单位
+  p_unit                           String
+  /// 产品负责人
+  p_product_manager_account        String
+  /// 产品负责人ID
+  p_product_manager_account_id     Int
+  /// 规格
+  p_specification                  String
+  /// 材质
+  p_material                       String
+  /// 功能
+  p_product_function               String
+  /// 属性
+  p_property                       String
+  /// 用途
+  p_product_usage                  String
+  /// 物流分组
+  p_transfer_group                 String
+  /// 标题
+  p_title                          String
+  /// SKU同步标识 0:未开启 1:开启
+  p_sku_sync_flag                  Int
+  /// 是否采购
+  p_purchase                       Int
+  /// 采购负责人
+  p_purchase_account               String
+  /// 采购负责人ID
+  p_purchase_account_id            Int
+  /// 采购周期
+  p_product_delivery_days          Int
+  /// 包装尺寸长
+  p_package_l                      Decimal
+  /// 包装尺寸宽
+  p_package_w                      Decimal
+  /// 包装尺寸高
+  p_package_h                      Decimal
+  /// 单品毛重
+  p_package_weight                 Decimal
+  /// 参考成本
+  p_quote                          Decimal
+  /// 单品尺寸 长
+  p_single_product_size_l          Decimal
+  /// 单品尺寸 宽
+  p_single_product_size_w          Decimal
+  /// 单品尺寸 高
+  p_single_product_size_h          Decimal
+  /// 单品净重 g
+  p_single_product_net_weight      Decimal
+  /// 原产地
+  p_country_of_origin              String
+  /// 内包个数
+  p_internal_package_number        Int
+  /// 报关编码
+  p_customs_code                   String
+  /// 内包个数
+  p_biginternal_package_number     Int
+  /// 中文报关名
+  p_chinese_customs_name           String
+  /// 英文报关名
+  p_english_customs_name           String
+  /// 申报要素
+  p_report_element                 String
+  /// 是否带电
+  p_charged_attribute              Int
+  /// 申报型号
+  p_report_model                   String
+  /// 监管条件
+  p_monitoring_condition           String
+  /// 产品认证类型
+  p_product_certification_type     String
+  /// 检疫检验类别
+  p_quarantine_inspection_category String
+  /// 是否带磁
+  p_magnetic_attribute             Int
+  /// 是否粉末
+  p_powder_attribute               Int
+  /// 是否液体
+  p_liquid_attribute               Int
+  /// 是否膏体
+  p_paste_attribute                Int
+  /// 是否木制
+  p_wooden_attribute               Int
+  /// 是否纯电
+  p_battery_attribute              Int
+  /// 是否商检
+  p_is_inspection                  Int
+  /// spu权限
+  spu_permission                   String
+  sys_account                      sys_account                @relation(fields: [p_product_manager_account_id], references: [biz_id])
+  e_parent_product_product         e_parent_product_product[]
 }
