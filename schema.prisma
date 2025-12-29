@@ -31,14 +31,14 @@ model e_listing {
   market_id         Int
   name              String
   market_polymerize e_market_polymerize @relation(fields: [market_id], references: [id])
-  listing_manager   e_listing_manager[]
+  listing_managers  e_listing_manager[]
 }
 
 model user {
-  id                Int                 @id @default(autoincrement())
-  biz_id            Int
-  name              String
-  e_listing_manager e_listing_manager[]
+  id                 Int                 @id @default(autoincrement())
+  biz_id             Int
+  name               String
+  e_listing_managers e_listing_manager[]
 }
 
 model e_market_polymerize {
@@ -48,5 +48,5 @@ model e_market_polymerize {
   platform_name String
   market_name   String
   market_id     String
-  listing       e_listing[]
+  listings      e_listing[]
 }
