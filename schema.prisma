@@ -24,20 +24,20 @@ model e_listing_manager {
   manager_user_id Int?
   listing         e_listing @relation(fields: [listing_id], references: [id])
   user            user      @relation(fields: [manager_id], references: [biz_id])
-  user            user      @relation(fields: [manager_user_id], references: [id])
 }
 
 model e_listing {
   id                  Int                 @id @default(autoincrement())
-  market_id           Int?
+  market_id           Int
+  name                String
   e_market_polymerize e_market_polymerize @relation(fields: [market_id], references: [id])
   e_listing_manager   e_listing_manager[]
 }
 
 model user {
   id                 Int                 @id @default(autoincrement())
-  biz_id             Int?
-  name               String?
+  biz_id             Int
+  name               String
   e_listing_managers e_listing_manager[]
 }
 
