@@ -477,7 +477,9 @@ model e_warehouse {
   gray_unbundle_flag       Int
   /// 地址信息
   address_ext              String
+  e_listing                e_listing[]
   e_market_polymerize      e_market_polymerize[]
+  platform_market          platform_market[]
 }
 
 /// Amazon-SC店铺
@@ -601,7 +603,6 @@ model platform_market {
   update_time           DateTime
   e_warehouse           e_warehouse           @relation(fields: [platform_warehouse_id], references: [id])
   e_market_polymerize   e_market_polymerize[]
-  operation_selling     operation_selling[]
 }
 
 /// Amazon-VC店铺
