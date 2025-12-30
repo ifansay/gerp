@@ -25,16 +25,8 @@ model e_listing {
   country_code        String
   item_id             String
   msku                String
-  main_image_url      String
-  listing_title       String
-  group_item_id       String
-  global_item_id      String
   sku                 String
   spu                 String
-  category            String
-  currency            String
-  platform_brand      String
-  platform_category   String
   spu_name            String
   warehouse_id        Int
   e_market_polymerize e_market_polymerize @relation(fields: [market_id], references: [id])
@@ -50,9 +42,6 @@ model e_market_polymerize {
   disable_Subaccounts Int
   session             Int
   market_name         String
-  seller_id           String
-  time_zone           String
-  shop_name           String
   e_market            e_market      @relation(fields: [market_id], references: [id])
   erp_shop_info       erp_shop_info @relation(fields: [market_id], references: [id])
   e_vc_market         e_vc_market   @relation(fields: [market_id], references: [id])
@@ -151,7 +140,7 @@ model sys_account {
   e_product         e_product[]
   e_parent_product  e_parent_product[]
 
-  @@unique([tenant_code, biz_id], name: "tenant_code_biz_id_unique")
+  @@unique([biz_id], name: "biz_id_unique")
 }
 
 model e_listing_manager {
