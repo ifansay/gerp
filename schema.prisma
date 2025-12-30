@@ -224,6 +224,8 @@ model e_product {
   purchase_account               sys_account              @relation(fields: [purchase_account_id], references: [biz_id])
   e_listing                      e_listing[]
   e_parent_product_product       e_parent_product_product
+
+  @@index([sku], name: "sku")
 }
 
 model e_warehouse {
@@ -394,7 +396,7 @@ model e_product_category {
   short_code      String
   e_product       e_product[]
 
-  @@unique([value])
+  @@unique([value], name: "value_unique")
 }
 
 model e_product_brand {
@@ -407,8 +409,9 @@ model e_product_brand {
   update_time DateTime
   e_product   e_product[]
 
-  @@unique([code])
+  @@unique([code], name: "code_unique")
 }
+
 model sys_account {
   id                Int                 @id @default(autoincrement())
   biz_id            Int
@@ -433,8 +436,9 @@ model sys_account {
   e_product         e_product[]
   e_parent_product  e_parent_product[]
 
-  @@unique([tenant_code, biz_id])
+  @@unique([tenant_code, biz_id], name: "tenant_code_biz_id_unique")
 }
+
 model e_listing_manager {
   id              Int         @id @default(autoincrement())
   listing_id      Int
@@ -445,6 +449,7 @@ model e_listing_manager {
   e_listing       e_listing   @relation(fields: [listing_id], references: [id])
   sys_account     sys_account @relation(fields: [manager_id], references: [id])
 }
+
 model e_parent_product_product {
   id                  Int              @id @default(autoincrement())
   parent_product_code String
@@ -456,6 +461,7 @@ model e_parent_product_product {
   e_parent_product    e_parent_product @relation(fields: [parent_product_code], references: [code])
   e_product           e_product        @relation(fields: [product], references: [sku])
 }
+
 model e_parent_product {
   id                               Int                        @id @default(autoincrement())
   code                             String
@@ -520,4 +526,6 @@ model e_parent_product {
   spu_permission                   String
   sys_account                      sys_account                @relation(fields: [p_product_manager_account_id], references: [biz_id])
   e_parent_product_product         e_parent_product_product[]
+
+  @@unique([code], name: "code_unique")
 }
