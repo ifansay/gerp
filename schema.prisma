@@ -1,6 +1,6 @@
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["tracing", "views", "relationJoins", "metrics"]
+  previewFeatures = ["tracing", "views", "relationJoins", "metrics"] /// 必须配置
 }
 
 datasource db {
@@ -399,8 +399,8 @@ model e_product {
   single_product_net_weight_unit String
   e_product_category             e_product_category       @relation(fields: [category], references: [value])
   e_product_brand                e_product_brand          @relation(fields: [brand], references: [code])
-  sys_account                    sys_account              @relation(fields: [product_manager_account_id], references: [biz_id])
-  sys_account                    sys_account              @relation(fields: [purchase_account_id], references: [biz_id])
+  product_manager                sys_account              @relation(fields: [product_manager_account_id], references: [biz_id])
+  purchase_account               sys_account              @relation(fields: [purchase_account_id], references: [biz_id])
   e_listing                      e_listing[]
   e_parent_product_product       e_parent_product_product
 }
@@ -688,6 +688,8 @@ model e_product_category {
   /// 品类简码（由数字、英文字母组成，长度不超过10个字符）
   short_code      String
   e_product       e_product[]
+
+  @@unique([value])
 }
 
 /// 产品品牌
@@ -703,6 +705,8 @@ model e_product_brand {
   /// 变更时间
   update_time DateTime
   e_product   e_product[]
+
+  @@unique([code])
 }
 
 /// 用户
@@ -748,6 +752,8 @@ model sys_account {
   e_listing_manager e_listing_manager[]
   e_product         e_product[]
   e_parent_product  e_parent_product[]
+
+  @@unique([tenant_code, biz_id])
 }
 
 /// 全渠道商品销售负责人关系
@@ -766,7 +772,6 @@ model e_listing_manager {
   update_time     DateTime
   e_listing       e_listing   @relation(fields: [listing_id], references: [id])
   sys_account     sys_account @relation(fields: [manager_id], references: [id])
-  sys_account     sys_account @relation(fields: [manager_user_id], references: [biz_id])
 }
 
 /// SPU与SKU关联信息
