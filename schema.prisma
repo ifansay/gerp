@@ -19,49 +19,27 @@ generator erd {
 }
 
 model e_listing {
-  id                      Int                 @id @default(autoincrement())
-  platform_code           String
-  market_id               Int
-  country_code            String
-  item_id                 String
-  msku                    String
-  main_image_url          String
-  listing_title           String
-  group_item_id           String
-  global_item_id          String
-  sku                     String
-  spu                     String
-  category                String
-  currency                String
-  platform_brand          String
-  platform_category       String
-  listing_state           String
-  sale_price              Decimal
-  adjust_standard_price   Decimal
-  offer_start_date        DateTime
-  offer_end_date          DateTime
-  sales_state             String
-  sales_state_detail      String
-  fulfillment             String
-  listing_time            DateTime
-  first_sales_date        DateTime
-  self_delivery_inventory Int
-  operation_state         String
-  operation_level         String
-  remarks                 String
-  listing_key             String
-  listing_permission_key  String
-  group_key               String
-  create_time             DateTime
-  update_time             DateTime
-  single                  Int
-  selling_party_id        String
-  warehouse_id            String
-  low_cost_store_flag     Int
-  spu_name                String
-  e_market_polymerize     e_market_polymerize @relation(fields: [market_id], references: [id])
-  e_product               e_product           @relation(fields: [sku], references: [sku])
-  e_warehouse             e_warehouse         @relation(fields: [warehouse_id], references: [id])
+  id                  Int                 @id @default(autoincrement())
+  platform_code       String
+  market_id           Int
+  country_code        String
+  item_id             String
+  msku                String
+  main_image_url      String
+  listing_title       String
+  group_item_id       String
+  global_item_id      String
+  sku                 String
+  spu                 String
+  category            String
+  currency            String
+  platform_brand      String
+  platform_category   String
+  spu_name            String
+  warehouse_id        Int
+  e_market_polymerize e_market_polymerize @relation(fields: [market_id], references: [id])
+  e_product           e_product           @relation(fields: [sku], references: [sku])
+  e_warehouse         e_warehouse         @relation(fields: [warehouse_id], references: [id])
 }
 
 model e_market_polymerize {
@@ -75,26 +53,6 @@ model e_market_polymerize {
   seller_id           String
   time_zone           String
   shop_name           String
-  api_state           String
-  asin_url            String
-  country_code        String
-  create_time         DateTime
-  market_id           String
-  disabled            Int
-  ads_state           String
-  add_date            DateTime
-  currency_id         Int
-  update_time         DateTime
-  delete_state        Int
-  awd_warehouse_id    Int
-  delete_time         DateTime
-  ads_code            String
-  delete_user_id      Int
-  public_token        String
-  warehouse_id        Int
-  refresh_token       String
-  region_id           String
-  server_id           String
   e_market            e_market      @relation(fields: [market_id], references: [id])
   erp_shop_info       erp_shop_info @relation(fields: [market_id], references: [id])
   e_vc_market         e_vc_market   @relation(fields: [market_id], references: [id])
@@ -104,284 +62,64 @@ model e_market_polymerize {
 }
 
 model e_product {
-  id                             Int                      @id @default(autoincrement())
-  sku                            String
-  small_image_url                String
-  name                           String
-  name_print                     String
-  brief_name                     String
-  category                       String
-  brand                          String
-  group_name                     String
-  navigation_id                  Int
-  devices                        String
-  barcode                        String
-  product_type                   Int
-  level                          Int
-  assembly                       String
-  assembly_package               String
-  estimated_assembly_days        Int
-  assembly_labor_cost            Decimal
-  default_assembly_warehouse_id  Int
-  package_l                      Decimal
-  package_w                      Decimal
-  package_h                      Decimal
-  package_weight                 Decimal
-  state                          Int
-  technical                      String
-  title                          String
-  description                    String
-  add_date                       DateTime
-  last_date                      DateTime
-  qa                             String
-  remark                         String
-  quote                          Decimal
-  material                       String
-  product_usage                  String
-  product_function               String
-  manufacturing_country          String
-  product_manager_account        String
-  product_manager_account_id     Int
-  purchase                       Int
-  purchase_account               String
-  purchase_account_id            Int
-  product_delivery_days          Int
-  rpp_min_to                     Int
-  rpp_max_to                     Int
-  rpp_7ps_percentage             Int
-  rpp_14ps_percentage            Int
-  rpp_28ps_percentage            Int
-  transfer_group                 String
-  english_name                   String
-  record_account_id              Int
-  warranty_time                  Int
-  unit                           String
-  safe_storage_quantity          Int
-  purchase_cycle                 Int
-  delivery_cycle                 Int
-  safe_storage_cycle             Int
-  purchase_biginterval_cycle     Int
-  property                       String
-  purchase_interval_cycle        Int
-  specification                  String
-  carton_size_w                  Decimal
-  carton_size_h                  Decimal
-  carton_size_l                  Decimal
-  single_weight                  Decimal
-  single_quantity                Decimal
-  clothing                       Int
-  customs_code                   String
-  single_product_size_l          Decimal
-  low_price                      Int
-  single_product_size_w          Decimal
-  single_product_size_h          Decimal
-  internal_package_number        Int
-  single_product_net_weight      Decimal
-  single_net_weight              Decimal
-  chinese_customs_name           String
-  english_customs_name           String
-  duty_currency                  String
-  duty_price                     Decimal
-  single_product_p_size_l        Decimal
-  is_inspection                  Int
-  single_product_p_size_w        Decimal
-  assemble_parent_id             Int
-  single_product_p_size_h        Decimal
-  report_element                 String
-  charged_attribute              Int
-  single_product_p_net_weight    Decimal
-  report_model                   String
-  magnetic_attribute             Int
-  single_product_p_p_size_l      Decimal
-  monitoring_condition           String
-  powder_attribute               Int
-  single_product_p_p_size_w      Decimal
-  product_certification_type     String
-  liquid_attribute               Int
-  single_product_p_p_size_h      Decimal
-  quarantine_inspection_category String
-  paste_attribute                Int
-  single_product_p_p_net_weight  Decimal
-  country_of_origin              String
-  update_time                    DateTime
-  wooden_attribute               Int
-  way_of_packing                 String
-  battery_attribute              Int
-  complete_state                 Int
-  legal_quantity_second          Decimal
-  create_time                    DateTime
-  transaction_price              Decimal
-  transaction_unit               String
-  domestic_source                String
-  legal_measurement_unit_first   String
-  legal_quantity_first           Decimal
-  legal_measurement_unit_second  String
-  package_weight_unit            String
-  single_product_net_weight_unit String
-  e_product_category             e_product_category       @relation(fields: [category], references: [value])
-  e_product_brand                e_product_brand          @relation(fields: [brand], references: [code])
-  product_manager                sys_account              @relation(fields: [product_manager_account_id], references: [biz_id])
-  purchase_account               sys_account              @relation(fields: [purchase_account_id], references: [biz_id])
-  e_listing                      e_listing[]
-  e_parent_product_product       e_parent_product_product
+  id                       Int                      @id @default(autoincrement())
+  sku                      String
+  small_image_url          String
+  name                     String
+  name_print               String
+  brief_name               String
+  category                 String
+  brand                    String
+  group_name               String
+  e_product_category       e_product_category       @relation(fields: [category], references: [value])
+  e_product_brand          e_product_brand          @relation(fields: [brand], references: [code])
+  product_manager          sys_account              @relation(fields: [product_manager_account_id], references: [biz_id])
+  purchase_account         sys_account              @relation(fields: [purchase_account_id], references: [biz_id])
+  e_listing                e_listing[]
+  e_parent_product_product e_parent_product_product
 
   @@index([sku], name: "sku")
 }
 
 model e_warehouse {
-  id                       Int                   @id @default(autoincrement())
-  server_id                Int
-  platform_code            String
-  name                     String
-  type                     String
-  parent_type              String
-  country                  String
-  others                   String
-  warehouse_code           String
-  pan_eur_status           Int
-  create_date              DateTime
-  status                   String
-  fba_procurement_method   Int
-  transfer_warehouse_id    Int
-  seller_id                String
-  product_transfer_subpac  Int
-  assemble_transfer_subpac Int
-  contacts                 String
-  mobile                   String
-  company                  String
-  state                    String
-  city                     String
-  district                 String
-  zip_code                 String
-  street                   String
-  phone                    String
-  email                    String
-  qq                       String
-  street2                  String
-  address_remark           String
-  create_time              DateTime
-  update_time              DateTime
-  sp_code                  String
-  spw_code                 String
-  hide_flag                Int
-  gray_unbundle_flag       Int
-  address_ext              String
-  e_listing                e_listing[]
-  e_market_polymerize      e_market_polymerize[]
-  platform_market          platform_market[]
+  id                  Int                   @id @default(autoincrement())
+  server_id           Int
+  platform_code       String
+  name                String
+  type                String
+  parent_type         String
+  country             String
+  e_listing           e_listing[]
+  e_market_polymerize e_market_polymerize[]
+  platform_market     platform_market[]
 }
 
 model e_market {
-  id                                 Int                 @id @default(autoincrement())
-  server_id                          Int
-  name                               String
-  alias                              String
-  account                            String
-  pwd                                String
-  country_id                         Int
-  currency_id                        Int
-  disabled                           Int
-  pu_dear                            String
-  ticket_dear                        String
-  review                             Int
-  invitation_review                  Int
-  feedback                           Int
-  invitation_feedback                Int
-  invitation_mfn                     Int
-  fee_vat                            Int
-  selling                            Int
-  fee_report                         Int
-  traffice                           Int
-  shipment                           Int
-  returns                            Int
-  inventory                          Int
-  session                            Int
-  subscript_offer_change             Int
-  ads                                Int
-  holiday_reply_email                Int
-  ignore_order_invitation_date_befor DateTime
-  order_incitation_email2            Int
-  add_date                           DateTime
-  others                             String
-  disable_Subaccounts                Int
-  ads_code                           String
-  ads_state                          String
-  api_state                          String
-  ses_auth_status                    String
-  public_token                       String
-  refresh_token                      String
-  ads_unauthorized_count             Int
-  encrypt_flag                       Int
-  auth_type                          String
-  create_time                        DateTime
-  update_time                        DateTime
-  delete_state                       Int
-  delete_time                        DateTime
-  delete_user_id                     Int
-  delete_user                        String
-  warehouse_init_state               Int
-  subaccount_disable_reason          String
-  disable_reason                     String
-  e_market_polymerize                e_market_polymerize
+  id                  Int                 @id @default(autoincrement())
+  server_id           Int
+  name                String
+  alias               String
+  country_id          Int
+  disable_reason      String
+  e_market_polymerize e_market_polymerize
 }
 
 model platform_market {
-  id                    Int                   @id @default(autoincrement())
-  market_polymerize_id  Int
-  tenant_code           String
-  client_id             String
-  partner_id            String
-  partner_name          String
-  display_name          String
-  client_secret         String
-  channel_type          String
-  public_token          String
-  country               String
-  market_name           String
-  market_account        String
-  auth_status           Int
-  status                Int
-  auth_update_time      DateTime
-  platform_warehouse_id Int
-  catalog_seller_id     String
-  create_time           DateTime
-  update_time           DateTime
-  e_warehouse           e_warehouse           @relation(fields: [platform_warehouse_id], references: [id])
-  e_market_polymerize   e_market_polymerize[]
+  id                   Int                   @id @default(autoincrement())
+  market_polymerize_id Int
+  tenant_code          String
+  country              String
+  market_name          String
+  e_warehouse          e_warehouse           @relation(fields: [platform_warehouse_id], references: [id])
+  e_market_polymerize  e_market_polymerize[]
 }
 
 model e_vc_market {
-  id                        Int                   @id @default(autoincrement())
-  seller_id                 String
-  seller_name               String
-  country_id                Int
-  country_code              String
-  disabled                  Int
-  api_state                 String
-  public_token              String
-  refresh_token             String
-  marketplace_id            String
-  time_zone                 String
-  asin_url                  String
-  create_time               DateTime
-  create_user_id            Int
-  update_user_id            Int
-  update_time               DateTime
-  delete_state              Int
-  delete_time               DateTime
-  delete_user_id            Int
-  ads_code                  String
-  ads_state                 String
-  warehouse_id              Int
-  server_id                 Int
-  account                   String
-  pwd                       String
-  auth_secret_key           String
-  encrypt_flag              Int
-  session                   Int
-  disable_subaccounts       Int
-  subaccount_disable_reason String
-  e_market_polymerize       e_market_polymerize[]
+  id                  Int                   @id @default(autoincrement())
+  seller_name         String
+  country_id          Int
+  country_code        String
+  e_market_polymerize e_market_polymerize[]
 }
 
 model e_product_category {
@@ -389,25 +127,16 @@ model e_product_category {
   name            String
   value           String
   parent_category String
-  state           String
-  memo            String
-  create_time     DateTime
-  update_time     DateTime
-  short_code      String
   e_product       e_product[]
 
   @@unique([value], name: "value_unique")
 }
 
 model e_product_brand {
-  id          Int         @id @default(autoincrement())
-  code        String
-  name        String
-  state       String
-  memo        String
-  create_time DateTime
-  update_time DateTime
-  e_product   e_product[]
+  id        Int         @id @default(autoincrement())
+  code      String
+  name      String
+  e_product e_product[]
 
   @@unique([code], name: "code_unique")
 }
@@ -415,23 +144,9 @@ model e_product_brand {
 model sys_account {
   id                Int                 @id @default(autoincrement())
   biz_id            Int
-  account_source    String
   login_name        String
   tenant_code       String
   name              String
-  is_charge         Int
-  password          String
-  account_type      Int
-  slat              String
-  phone             String
-  is_admin          Int
-  status            Int
-  org_id            Int
-  hidden            Int
-  ips               String
-  ip_state          Int
-  user_id           Int
-  deletion_flag     Int
   e_listing_manager e_listing_manager[]
   e_product         e_product[]
   e_parent_product  e_parent_product[]
@@ -444,8 +159,6 @@ model e_listing_manager {
   listing_id      Int
   manager_id      Int
   manager_user_id Int
-  create_time     DateTime
-  update_time     DateTime
   e_listing       e_listing   @relation(fields: [listing_id], references: [id])
   sys_account     sys_account @relation(fields: [manager_id], references: [id])
 }
@@ -454,78 +167,16 @@ model e_parent_product_product {
   id                  Int              @id @default(autoincrement())
   parent_product_code String
   product             String
-  record_account_id   Int
-  record_date         DateTime
-  create_time         DateTime
-  update_time         DateTime
   e_parent_product    e_parent_product @relation(fields: [parent_product_code], references: [code])
   e_product           e_product        @relation(fields: [product], references: [sku])
 }
 
 model e_parent_product {
-  id                               Int                        @id @default(autoincrement())
-  code                             String
-  name                             String
-  qc_adverse_rate                  Decimal
-  rma_adverse_rate                 Decimal
-  qc_standard1                     String
-  qc_standard2                     String
-  qc_standard3                     String
-  qc_standard4                     String
-  qc_standard5                     String
-  description                      String
-  record_account_id                Int
-  record_date                      DateTime
-  last_date                        DateTime
-  p_category                       String
-  p_brand                          String
-  p_state                          Int
-  p_unit                           String
-  p_product_manager_account        String
-  p_product_manager_account_id     Int
-  p_specification                  String
-  p_material                       String
-  p_product_function               String
-  p_property                       String
-  p_product_usage                  String
-  p_transfer_group                 String
-  p_title                          String
-  p_sku_sync_flag                  Int
-  p_purchase                       Int
-  p_purchase_account               String
-  p_purchase_account_id            Int
-  p_product_delivery_days          Int
-  p_package_l                      Decimal
-  p_package_w                      Decimal
-  p_package_h                      Decimal
-  p_package_weight                 Decimal
-  p_quote                          Decimal
-  p_single_product_size_l          Decimal
-  p_single_product_size_w          Decimal
-  p_single_product_size_h          Decimal
-  p_single_product_net_weight      Decimal
-  p_country_of_origin              String
-  p_internal_package_number        Int
-  p_customs_code                   String
-  p_biginternal_package_number     Int
-  p_chinese_customs_name           String
-  p_english_customs_name           String
-  p_report_element                 String
-  p_charged_attribute              Int
-  p_report_model                   String
-  p_monitoring_condition           String
-  p_product_certification_type     String
-  p_quarantine_inspection_category String
-  p_magnetic_attribute             Int
-  p_powder_attribute               Int
-  p_liquid_attribute               Int
-  p_paste_attribute                Int
-  p_wooden_attribute               Int
-  p_battery_attribute              Int
-  p_is_inspection                  Int
-  spu_permission                   String
-  sys_account                      sys_account                @relation(fields: [p_product_manager_account_id], references: [biz_id])
-  e_parent_product_product         e_parent_product_product[]
+  id                       Int                        @id @default(autoincrement())
+  code                     String
+  name                     String
+  sys_account              sys_account                @relation(fields: [p_product_manager_account_id], references: [biz_id])
+  e_parent_product_product e_parent_product_product[]
 
   @@unique([code], name: "code_unique")
 }
